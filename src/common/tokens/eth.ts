@@ -27,7 +27,7 @@ export const isNativeEth = (contractAddress: string): boolean => {
 
 export const turnTokenIntoEthForResponse = (
   token: Token,
-  nativeCurrencyInfo: NativeCurrencyInfo | undefined
+  nativeCurrencyInfo?: NativeCurrencyInfo
 ): Token => {
   const clone = deepClone(token);
   // clear down contract address
@@ -95,11 +95,11 @@ export class ETH {
     };
   }
 
-  public static KOVAN(): Token {
+  public static SEPOLIA(): Token {
     return {
-      chainId: ChainId.KOVAN,
+      chainId: ChainId.SEPOLIA,
       contractAddress: appendEthToContractAddress(
-        '0xd0A1E359811322d97991E03f863a0C30C2cF029C'
+        '0xb16F35c0Ae2912430DAc15764477E179D9B9EbEa'
       ),
       decimals: 18,
       symbol: ETH_SYMBOL,
@@ -107,13 +107,69 @@ export class ETH {
     };
   }
 
+  public static FUJI(): Token {
+    return {
+      chainId: ChainId.FUJI,
+      contractAddress: appendEthToContractAddress(
+        '0xd00ae08403B9bbb9124bB305C09058E32C39A48c'
+      ),
+      decimals: 18,
+      symbol: ETH_SYMBOL,
+      name: ETH_NAME,
+    };
+  }
+
+  public static AVALANCHE(): Token {
+    return {
+      chainId: ChainId.AVALANCHE,
+      contractAddress: appendEthToContractAddress(
+        '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7'
+      ),
+      decimals: 18,
+      symbol: ETH_SYMBOL,
+      name: ETH_NAME,
+    };
+  }
+  public static POLYGON(): Token {
+    return {
+      chainId: ChainId.POLYGON,
+      contractAddress: appendEthToContractAddress(
+        '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270'
+      ),
+      decimals: 18,
+      symbol: 'MATIC',
+      name: 'Matic Network',
+    };
+  }
+   public static BSC(): Token {
+    return {
+      chainId: ChainId.BSC,
+      contractAddress: appendEthToContractAddress(
+        '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+      ),
+      decimals: 18,
+      symbol: 'WBNB',
+      name: 'Wrapped BNB',
+    };
+  }
+   public static ARBITRUM(): Token {
+    return {
+      chainId: ChainId.ARBITRUM,
+      contractAddress: appendEthToContractAddress(
+        '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1'
+      ),
+      decimals: 18,
+      symbol: ETH_SYMBOL,
+      name: ETH_NAME,
+    };
+  }
   /**
    * Get ETH token info by chain id
    * @param chainId The chain id
    */
   public static info(
     chainId: ChainId | number,
-    customNetworkNativeWrappedTokenInfo: Token | undefined = undefined
+    customNetworkNativeWrappedTokenInfo?: Token | undefined
   ): Token {
     if (customNetworkNativeWrappedTokenInfo) {
       return {
@@ -132,8 +188,14 @@ export class ETH {
         return this.RINKEBY();
       case ChainId.GÖRLI:
         return this.GORLI();
-      case ChainId.KOVAN:
-        return this.KOVAN();
+      case ChainId.FUJI:
+        return this.FUJI();
+      case ChainId.AVALANCHE:
+        return this.AVALANCHE();
+      case ChainId.POLYGON:
+        return this.POLYGON();
+      case ChainId.BSC:
+        return this.BSC();
       default:
         throw new UniswapError(
           `${chainId} is not allowed`,

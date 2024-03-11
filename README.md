@@ -1,63 +1,13 @@
-# simple-uniswap-sdk
-
-[![npm version](https://badge.fury.io/js/simple-uniswap-sdk.svg)](https://badge.fury.io/js/simple-uniswap-sdk)
-![downloads](https://img.shields.io/npm/dw/simple-uniswap-sdk)
-
-Uniswap SDK which handles the routes automatically for you, changes in trade quotes reactive subscriptions, exposure to formatted easy to understand information, bringing back the best trade quotes automatically, generating transactions for you and much more. All the uniswap logic for you in a simple to easy understand interface to hook straight into your dApp without having to understand how it all works.
-
-Please note this is not owned or maintained by uniswap and is a open source package for anyone to use freely.
-
-## Features 🚀
-
-🚀 Supports uniswap v2 and v3 prices together and returns you the best price, so you do not need to query both yourself
-<br/>
-🚀 Queries all the best routes and finds the best price for you
-<br/>
-🚀 Exposes all the route paths it tried so you can see every detail in how it worked out the best price
-<br/>
-🚀 Factor in the cost of the transaction into the quotes with 1 config change
-<br/>
-🚀 Easy subscriptions to get alerted when the price moves or the trade expires
-<br/>
-🚀 The transaction is generated for you, just fill it with the gas details and send it on its way
-<br/>
-🚀 All the figures are all formatted for you, no need to worry about timing it back to its decimal formatted place, just render it straight onto your UI
-<br/>
-🚀 Exposes all the tokens metadata for you, name, symbol, decimals
-<br/>
-🚀 Uses [multicall](https://github.com/joshstevens19/ethereum-multicall) for every on chain lookup, so even though it could be doing 100 JSONRPC calls it is all put into a few calls meaning it can stay very fast
-<br/>
-🚀 Tidy bundle size
-<br/>
-🚀 Fully typescript supported with full generated typings
-<br/>
-🚀 query many tokens in 1 jsonrpc call perfect to get token metadata fast
-<br/>
-🚀 and much more!!
-
-# Motivation
-
-As a ethereum dApp developer you try to get your dApp experience as integrated as possible, Ethereum right now is hard to show in a web2.0 world as it is. On top of this as a developer you have to learn all the complex stuff for the blockchain which can take its toll on you.
-
-When I was integrating uniswap on our wallet I found that their `SDK` was a bit too much for what I needed. Deepdown from the dApp point of view I only really cared about getting the best price for the user with all the fees related. I also found myself having to write a lot of custom code which I thought could be abstracted away so nobody has to deal with that again. A lot of the uniswap features like routing is all done in their client itself which is great but not when you want to use it in a more integrated approach in your on dApp.
-
-`Uniswap` is one of the BEST projects on ethereum and one of my favourites. My motivation here is to create a library which allows more people to integrate it on their dApp without having to worry about how their amazing software links together. This makes the whole user experience better and allows more developers to get involved integrating uniswap in their dApp with a web2.0 experience, and on top of this also growing the usage of it.
-
-p.s I have huge love for unicorns
+# cab-uniswap
 
 # Installing
 
 ## npm
 
 ```bash
-$ npm install simple-uniswap-sdk
+$ npm install @mrtruongleo/cab-uniswap
 ```
 
-## yarn
-
-```bash
-$ yarn add simple-uniswap-sdk
-```
 
 # SDK guide
 
@@ -4344,20 +4294,57 @@ Time:        33.238s
 Ran all test suites.
 ```
 
-## Issues
-
-Please raise any issues in the below link.
-
-https://github.com/joshstevens19/uniswap-sdk/issues
-
-## Thanks And Support
-
-This package is brought to you by [Josh Stevens](https://github.com/joshstevens19). My aim is to be able to keep creating these awesome packages to help the Ethereum space grow with easier-to-use tools to allow the learning curve to get involved with blockchain development easier and making Ethereum ecosystem better. If you want to help with that vision and allow me to invest more time into creating cool packages or if this package has saved you a lot of development time donations are welcome, every little helps. By donating, you are supporting me to be able to maintain existing packages, extend existing packages (as Ethereum matures), and allowing me to build more packages for Ethereum due to being able to invest more time into it. Thanks, everyone!
-
-## Direct donations
-
-Direct donations any token accepted - Eth address > `0x699c2daD091ffcF18f3cd9E8495929CA3a64dFe1`
-
-## Github sponsors
-
-[sponsor me](https://github.com/sponsors/joshstevens19) via github using fiat money
+## Custom Network Configurations
+### Multicall v3 Address
+| Chain | Address                                     | Source
+| -     | -                                           | -
+| ALL   | 0xcA11bde05977b3631167028862bE2a173976CA11  | https://github.com/mds1/multicall#multicall3-contract-addresses
+| Pulse   | 0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696  | 
+### Uniswap (v3)
+| Chain             | Router                                      | Factory                                     | Quoter
+| -                 | -                                           | -                                           | -
+| Arbitrum One      | 0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45  | 0x1f98431c8ad98523631ae4a59f267346ea31f984  | 0xb27308f9f90d607463bb33ea1bebb41c27ce5ab6
+| Celo              | 0x5615CDAb10dc425a742d643d949a7F474C01abc4  | 0xAfE208a311B21f13EF87E33A90049fC17A7acDEc  | 0x82825d0554fA07f7FC52Ab63c961F330fdEFa8E8
+| Celo Alfajores    | 0x5615CDAb10dc425a742d643d949a7F474C01abc4  | 0xAfE208a311B21f13EF87E33A90049fC17A7acDEc  | 0x82825d0554fA07f7FC52Ab63c961F330fdEFa8E8
+| Optimism          | 0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45  | 0x1F98431c8aD98523631AE4a59f267346ea31F984  | 0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6
+| Polygon           | 0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45  | 0x1F98431c8aD98523631AE4a59f267346ea31F984  | 0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6
+| Polygon Mumbai    | 0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45  | 0x1F98431c8aD98523631AE4a59f267346ea31F984  | 0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6
+### Uniswap (v2)
+| Chain             | Router                                      | Factory
+| -                 | -                                           | - 
+| Pulse             | 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D  | 0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f
+### Sushi Swap (v2)
+| Chain             | Router                                      | Factory / Pair                                 
+| -                 | -                                           | -
+| Arbitrum One      | 0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506  | 0xc35DADB65012eC5796536bD9864eD8773aBc74C4
+| Avalanche C-Chain | 0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506  | 0xc35DADB65012eC5796536bD9864eD8773aBc74C4
+| Avalanche Fuji    | 0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506  | 0xc35DADB65012eC5796536bD9864eD8773aBc74C4
+| BSC               | 0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506  | 0xc35DADB65012eC5796536bD9864eD8773aBc74C4
+| BSC Testnet       | 0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506  | 0xc35DADB65012eC5796536bD9864eD8773aBc74C4
+| Celo              | 0x1421bDe4B10e8dd459b3BCb598810B1337D56842  | 0xc35DADB65012eC5796536bD9864eD8773aBc74C4
+| Ethereum          | 0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F  | 0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac
+| Ethereum Görli    | 0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506  | 0xc35DADB65012eC5796536bD9864eD8773aBc74C4
+| Polygon           | 0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506  | 0xc35DADB65012eC5796536bD9864eD8773aBc74C4
+| Polygon Mumbai    | 0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506  | 0xc35DADB65012eC5796536bD9864eD8773aBc74C4
+### Pancake Swap (v2)
+| Chain             | Router                                      | Factory / Pair                                 
+| -                 | -                                           | -
+| BSC               | 0x10ED43C718714eb63d5aA57B78B54704E256024E  | 0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73
+| BSC Testnet       | 0xD99D1c33F9fC3444f8101754aBC46c52416550D1  | 0x6725F303b657a9451d8BA641348b6761A6CC7a17
+| Ethereum          | 0xEfF92A263d31888d860bD50809A8D171709b7b1c  | 0x1097053Fd2ea711dad45caCcc45EfF7548fCB362
+| Ethereum Görli    | 0xEfF92A263d31888d860bD50809A8D171709b7b1c  | 0x1097053Fd2ea711dad45caCcc45EfF7548fCB362
+### YETI Swap (v2)
+YetiSwap ABI: https://snowtrace.io/address/0x262DcFB36766C88E6A7a2953c16F8defc40c378A#code
+| Chain             | Router                                      | Factory / Pair
+| -                 | -                                           | -
+| Avalanche C-Chain | 0x262DcFB36766C88E6A7a2953c16F8defc40c378A  | 0x58C8CD291Fa36130119E6dEb9E520fbb6AcA1c3a
+| Avalanche Fuji    | 0x208bF39BA61bd83D0362D01151ADbd3286b746c2  |  
+### TRADERJOE (v2)
+TraderJoe ABI: https://snowtrace.io/address/0x60aE616a2155Ee3d9A68541Ba4544862310933d4#code
+| Chain             | Router                                      | Factory / Pair
+| -                 | -                                           | -
+| Avalanche C-Chain | 0x60aE616a2155Ee3d9A68541Ba4544862310933d4  | 0x9ad6c38be94206ca50bb0d90783181662f0cfa10
+### PulseX (v2)
+| Chain             | Router                                      | Factory / Pair
+| -                 | -                                           | -
+| Pulse             | 0xb4A7633D8932de086c9264D5eb39a8399d7C0E3A  | 0xb242aA8A863CfcE9fcBa2b9a6B00b4cd62343f27

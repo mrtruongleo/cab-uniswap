@@ -1,6 +1,6 @@
 {
   "name": "@mrtruongleo/cab-uniswap",
-  "version": "3.7.0",
+  "version": "3.7.3",
   "description": "Simple easy to understand SDK for uniswap which looks over best v2 and v3 to find you the best swap quote",
   "main": "dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -9,7 +9,11 @@
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
-    "playground": "node ./dist/cjs/__TEST-SCRIPT__/playground.js",
+    "eth": "node ./dist/cjs/__TEST-SCRIPT__/eth.js",
+    "avax": "node ./dist/cjs/__TEST-SCRIPT__/avax.js",
+    "polygon": "node ./dist/cjs/__TEST-SCRIPT__/polygon.js",
+    "bsc": "node ./dist/cjs/__TEST-SCRIPT__/bsc.js",
+    "arbitrum": "node ./dist/cjs/__TEST-SCRIPT__/arbitrum.js",
     "watch": "tsc --module commonjs --outDir dist/cjs --watch",
     "test": "jest",
     "gen-erc20-abi": "abi-types-generator ./src/ABI/erc-20-abi.json --output=./src/ABI/types --name=erc20-contract --provider=ethers_v5",
@@ -27,7 +31,9 @@
     "url": "https://github.com/mrtruongleo/cab-uniswap.git"
   },
   "author": "",
-  "publishConfig": {"access": "public"},
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "ISC",
   "keywords": [
     "ethereum",
@@ -35,12 +41,12 @@
     "uniswap"
   ],
   "dependencies": {
-    "bignumber.js": "^9.0.1",
-    "ethereum-multicall": "^2.7.0",
-    "ethers": "^5.0.26",
-    "node-fetch": "^2.6.1",
-    "rxjs": "^6.6.3",
-    "ethereum-abi-types-generator": "^1.1.6"
+    "bignumber.js": "^9.1.0",
+    "ethereum-abi-types-generator": "^1.3.2",
+    "ethereum-multicall": "^2.23.0",
+    "ethers": "^5.7.0",
+    "node-fetch": "^2.6.7",
+    "rxjs": "^6.6.7"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",

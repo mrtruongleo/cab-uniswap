@@ -125,15 +125,10 @@ export class UniswapPair {
   public async createFactory(): Promise<UniswapPairFactory> {
     if (this._uniswapPairContext.settings?.customNetwork === undefined) {
       const chainId = this._ethersProvider.network().chainId;
-      if (
-        chainId !== ChainId.MAINNET &&
-        chainId !== ChainId.ROPSTEN &&
-        chainId !== ChainId.RINKEBY &&
-        chainId !== ChainId.GÖRLI &&
-        chainId !== ChainId.KOVAN
-      ) {
+      const chainIds = Object.values(ChainId)
+      if (!chainIds.includes(chainId)) {
         throw new UniswapError(
-          `ChainId - ${chainId} is not supported. This lib only supports mainnet(1), ropsten(4), kovan(42), rinkeby(4), and görli(5)`,
+          `ChainId - ${chainId} is not supported. This lib only supports ${chainIds.join(', ')}`,
           ErrorCodes.chainIdNotSupported
         );
       }

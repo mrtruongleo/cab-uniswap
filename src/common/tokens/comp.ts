@@ -16,8 +16,25 @@ export class COMP {
       name: 'Compound',
     };
   }
-
-  /**
+  public static POLYGON(): Token {
+    return {
+      chainId: ChainId.POLYGON,
+      contractAddress: '0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c',
+      decimals: 18,
+      symbol: 'COMP',
+      name: 'Compound',
+    };
+  }
+  public static BSC() {
+    return {
+      chainId: ChainId.BSC,
+      contractAddress: "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
+      decimals: 18,
+      symbol: "COMP",
+      name: "Compound",
+    };
+  }
+  /**0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c
    * Get COMP token info by chain id
    * @param chainId The chain id
    */
@@ -25,6 +42,10 @@ export class COMP {
     switch (chainId) {
       case ChainId.MAINNET:
         return this.MAINNET();
+      case ChainId.POLYGON:
+        return this.POLYGON();
+      case ChainId.BSC:
+        return this.BSC();
       default:
         throw new UniswapError(
           `${chainId} is not allowed`,

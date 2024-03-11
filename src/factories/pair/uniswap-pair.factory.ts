@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { ethers } from 'ethers';
 import { Subject } from 'rxjs';
 import { CoinGecko } from '../../coin-gecko';
 import { Constants } from '../../common/constants';
@@ -12,12 +13,12 @@ import { deepClone } from '../../common/utils/deep-clone';
 import { getTradePath } from '../../common/utils/trade-path';
 import { TradePath } from '../../enums/trade-path';
 import { UniswapVersion } from '../../enums/uniswap-version';
-import { uniswapContracts } from '../../uniswap-contract-context/get-uniswap-contracts';
+// import { uniswapContracts } from '../../uniswap-contract-context/get-uniswap-contracts';
 import { AllPossibleRoutes } from '../router/models/all-possible-routes';
 import { BestRouteQuotes } from '../router/models/best-route-quotes';
 import { RouteQuote } from '../router/models/route-quote';
 import { UniswapRouterFactory } from '../router/uniswap-router.factory';
-import { AllowanceAndBalanceOf } from '../token/models/allowance-balance-of';
+// import { AllowanceAndBalanceOf } from '../token/models/allowance-balance-of';
 import { Token } from '../token/models/token';
 import { TokenFactory } from '../token/token.factory';
 import { CurrentTradeContext } from './models/current-trade-context';
@@ -30,8 +31,7 @@ export class UniswapPairFactory {
   private _fromTokenFactory = new TokenFactory(
     this._uniswapPairFactoryContext.fromToken.contractAddress,
     this._uniswapPairFactoryContext.ethersProvider,
-    this._uniswapPairFactoryContext.settings.customNetwork,
-    this._uniswapPairFactoryContext.settings.cloneUniswapContractDetails
+    this._uniswapPairFactoryContext.settings.customNetwork
   );
 
   private _toTokenFactory = new TokenFactory(
@@ -52,11 +52,14 @@ export class UniswapPairFactory {
   private _watchingBlocks = false;
   private _currentTradeContext: CurrentTradeContext | undefined;
   private _quoteChanged$: Subject<TradeContext> = new Subject<TradeContext>();
+  private _listener: ethers.providers.Listener
 
   constructor(
     private _coinGecko: CoinGecko,
     private _uniswapPairFactoryContext: UniswapPairFactoryContext
-  ) {}
+  ) {
+    this._listener = () => this.handleNewBlock()
+  }
 
   /**
    * The to token
@@ -170,6 +173,12 @@ export class UniswapPairFactory {
 
     return trade;
   }
+  /**
+   * Manually fetch the latest quotes
+   */
+  public async requote() {
+    await this.handleNewBlock();
+  }
 
   /**
    * Find the best route rate out of all the route quotes
@@ -211,39 +220,42 @@ export class UniswapPairFactory {
   /**
    * Get the allowance and balance for the from token (erc20 > blah) only
    */
-  public async getAllowanceAndBalanceOfForFromToken(): Promise<AllowanceAndBalanceOf> {
-    return await this._fromTokenFactory.getAllowanceAndBalanceOf(
-      this._uniswapPairFactoryContext.ethereumAddress
-    );
-  }
+  // public async getAllowanceAndBalanceOfForFromToken(): Promise<AllowanceAndBalanceOf> {
+  //   return await this._fromTokenFactory.getAllowanceAndBalanceOf(
+  //     this._uniswapPairFactoryContext.ethereumAddress,
+  //     ''
+  //   );
+  // }
 
   /**
    * Get the allowance and balance for to from token (eth > erc20) only
    * @param uniswapVersion The uniswap version
    */
-  public async getAllowanceAndBalanceOfForToToken(): Promise<AllowanceAndBalanceOf> {
-    return await this._toTokenFactory.getAllowanceAndBalanceOf(
-      this._uniswapPairFactoryContext.ethereumAddress
-    );
-  }
+  // public async getAllowanceAndBalanceOfForToToken(): Promise<AllowanceAndBalanceOf> {
+  //   return await this._toTokenFactory.getAllowanceAndBalanceOf(
+  //     this._uniswapPairFactoryContext.ethereumAddress,p
+  //     ''
+  //   );
+  // }
 
   /**
    * Get the allowance for the amount which can be moved from the `fromToken`
    * on the users behalf. Only valid when the `fromToken` is a ERC20 token.
    * @param uniswapVersion The uniswap version
    */
-  public async allowance(uniswapVersion: UniswapVersion): Promise<string> {
-    if (this.tradePath() === TradePath.ethToErc20) {
-      return '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
-    }
+  // public async allowance(uniswapVersion: UniswapVersion): Promise<string> {
+  //   if (this.tradePath() === TradePath.ethToErc20) {
+  //     return '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+  //   }
 
-    const allowance = await this._fromTokenFactory.allowance(
-      uniswapVersion,
-      this._uniswapPairFactoryContext.ethereumAddress
-    );
+  //   const allowance = await this._fromTokenFactory.allowance(
+  //     uniswapVersion,
+  //     this._uniswapPairFactoryContext.ethereumAddress,
+  //     ''
+  //   );
 
-    return allowance;
-  }
+  //   return allowance;
+  // }
 
   /**
    * Generate the from token approve data max allowance to move the tokens.
@@ -251,7 +263,7 @@ export class UniswapPairFactory {
    * @param uniswapVersion The uniswap version
    */
   public async generateApproveMaxAllowanceData(
-    uniswapVersion: UniswapVersion
+    routerAddress: string
   ): Promise<Transaction> {
     if (this.tradePath() === TradePath.ethToErc20) {
       throw new UniswapError(
@@ -261,13 +273,7 @@ export class UniswapPairFactory {
     }
 
     const data = this._fromTokenFactory.generateApproveAllowanceData(
-      uniswapVersion === UniswapVersion.v2
-        ? uniswapContracts.v2.getRouterAddress(
-            this._uniswapPairFactoryContext.settings.cloneUniswapContractDetails
-          )
-        : uniswapContracts.v3.getRouterAddress(
-            this._uniswapPairFactoryContext.settings.cloneUniswapContractDetails
-          ),
+      routerAddress,
       '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
     );
 
@@ -312,7 +318,7 @@ export class UniswapPairFactory {
    */
   private async findBestPriceAndPathErc20ToEth(
     baseConvertRequest: BigNumber,
-    direction: TradeDirection
+    direction: TradeDirection,
   ): Promise<TradeContext> {
     const bestRouteQuotes = await this._routes.findBestRoute(
       baseConvertRequest,
@@ -320,7 +326,7 @@ export class UniswapPairFactory {
     );
 
     const bestRouteQuote = bestRouteQuotes.bestRouteQuote;
-    
+
     const tradeContext: TradeContext = {
       uniswapVersion: bestRouteQuote.uniswapVersion,
       quoteDirection: direction,
@@ -357,7 +363,8 @@ export class UniswapPairFactory {
       hasEnoughAllowance: bestRouteQuotes.hasEnoughAllowance,
       approvalTransaction: !bestRouteQuotes.hasEnoughAllowance
         ? await this.generateApproveMaxAllowanceData(
-            bestRouteQuote.uniswapVersion
+            // bestRouteQuote.uniswapVersion
+            bestRouteQuote.routerAddress
           )
         : undefined,
       toToken: turnTokenIntoEthForResponse(
@@ -374,6 +381,7 @@ export class UniswapPairFactory {
       },
       transaction: bestRouteQuote.transaction,
       gasPriceEstimatedBy: bestRouteQuote.gasPriceEstimatedBy,
+      bestRouteQuote: bestRouteQuote,
       allTriedRoutesQuotes: bestRouteQuotes.triedRoutesQuote,
       quoteChanged$: this._quoteChanged$,
       destroy: () => this.destroy(),
@@ -431,7 +439,8 @@ export class UniswapPairFactory {
       hasEnoughAllowance: bestRouteQuotes.hasEnoughAllowance,
       approvalTransaction: !bestRouteQuotes.hasEnoughAllowance
         ? await this.generateApproveMaxAllowanceData(
-            bestRouteQuote.uniswapVersion
+            // bestRouteQuote.uniswapVersion
+            bestRouteQuote.routerAddress
           )
         : undefined,
       toToken: this.toToken,
@@ -445,6 +454,7 @@ export class UniswapPairFactory {
       },
       transaction: bestRouteQuote.transaction,
       gasPriceEstimatedBy: bestRouteQuote.gasPriceEstimatedBy,
+      bestRouteQuote: bestRouteQuote,
       allTriedRoutesQuotes: bestRouteQuotes.triedRoutesQuote,
       quoteChanged$: this._quoteChanged$,
       destroy: () => this.destroy(),
@@ -516,6 +526,7 @@ export class UniswapPairFactory {
       },
       transaction: bestRouteQuote.transaction,
       gasPriceEstimatedBy: bestRouteQuote.gasPriceEstimatedBy,
+      bestRouteQuote: bestRouteQuote,
       allTriedRoutesQuotes: bestRouteQuotes.triedRoutesQuote,
       quoteChanged$: this._quoteChanged$,
       destroy: () => this.destroy(),
@@ -542,12 +553,10 @@ export class UniswapPairFactory {
    * Watch trade price move automatically emitting the stream if it changes
    */
   private watchTradePrice(): void {
-    if (!this._watchingBlocks) {
+    if (!this._watchingBlocks && !this._uniswapPairFactoryContext.settings.disableObserver) {
       this._uniswapPairFactoryContext.ethersProvider.provider.on(
         'block',
-        async () => {
-          await this.handleNewBlock();
-        }
+       this._listener
       );
       this._watchingBlocks = true;
     }
@@ -561,6 +570,13 @@ export class UniswapPairFactory {
       'block'
     );
     this._watchingBlocks = false;
+    if (!this._uniswapPairFactoryContext.settings.disableObserver) { 
+      this._uniswapPairFactoryContext.ethersProvider.provider.off(
+        'block',
+        this._listener
+      );
+      this._watchingBlocks = false;
+    }
   }
 
   /**

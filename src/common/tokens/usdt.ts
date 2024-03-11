@@ -16,8 +16,25 @@ export class USDT {
       name: 'Tether USD',
     };
   }
-
-  /**
+  public static POLYGON(): Token {
+    return {
+      chainId: ChainId.POLYGON,
+      contractAddress: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f',
+      decimals: 6,
+      symbol: 'USDT',
+      name: 'Tether USD',
+    };
+  }
+   public static BSC() {
+    return {
+      chainId: ChainId.BSC,
+      contractAddress: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
+      decimals: 18,
+      symbol: "USDT",
+      name: "Tether USD",
+    };
+  }
+  /**0xc2132d05d31c914a87c6611c10748aeb04b58e8f
    * Get USDT token info by chain id
    * @param chainId The chain id
    */
@@ -25,6 +42,10 @@ export class USDT {
     switch (chainId) {
       case ChainId.MAINNET:
         return this.MAINNET();
+      case ChainId.POLYGON:
+        return this.POLYGON();
+      case ChainId.BSC:
+        return this.BSC();
       default:
         throw new UniswapError(
           `${chainId} is not allowed`,

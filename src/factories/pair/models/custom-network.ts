@@ -9,7 +9,7 @@ export interface CustomNetwork {
   nameNetwork: string;
   multicallContractAddress: string;
   nativeCurrency: NativeCurrencyInfo;
-  nativeWrappedTokenInfo: Token;
+  nativeWrappedTokenInfo?: Token;
   // defined your base tokens here!
   baseTokens?: {
     usdt?: Token | undefined;
@@ -17,5 +17,6 @@ export interface CustomNetwork {
     comp?: Token | undefined;
     usdc?: Token | undefined;
     wbtc?: Token | undefined;
+    //wmatic?: Token | undefined;
   };
 }
