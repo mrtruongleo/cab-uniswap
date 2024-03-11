@@ -1344,8 +1344,9 @@ export class UniswapRouterFactory {
     enoughAllowanceV2: boolean,
     enoughAllowanceV3: boolean
   ): Promise<RouteQuote[]> {
+    const chainId = this._ethersProvider.provider._network.chainId
     if (this._settings.gasSettings && !this._settings.disableMultihops) {
-      const ethContract = WETHContract.MAINNET().contractAddress;
+      const ethContract = WETHContract.token(chainId).contractAddress;
 
       const fiatPrices = await this._coinGecko.getCoinGeckoFiatPrices([
         this._toToken.contractAddress,
@@ -1353,7 +1354,7 @@ export class UniswapRouterFactory {
       ]);
 
       const toUsdValue = fiatPrices[this._toToken.contractAddress];
-      const ethUsdValue = fiatPrices[WETHContract.MAINNET().contractAddress];
+      const ethUsdValue = fiatPrices[WETHContract.token(chainId).contractAddress];
 
       if (toUsdValue && ethUsdValue) {
         const bestRouteQuoteHops = this.getBestRouteQuotesHops(
