@@ -1,9 +1,8 @@
-import { WBTC } from '../common/tokens/wbtc';
 import { csl } from '../common/utils/csl';
 import { ChainId } from '../enums/chain-id';
 import { UniswapPairSettings } from '../factories/pair/models/uniswap-pair-settings';
 import { UniswapPair } from '../factories/pair/uniswap-pair';
-import {COMP, DAI, TradeDirection, USDC, USDT, UniswapVersion } from '../index';
+import {TradeDirection, UniswapVersion } from '../index';
 
 // WBTC - 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599
 // FUN - 0x419D0d8BdD9aF5e606Ae2232ed285Aff190E711b
@@ -14,18 +13,17 @@ import {COMP, DAI, TradeDirection, USDC, USDT, UniswapVersion } from '../index';
 // GTC - 0xde30da39c46104798bb5aa3fe8b9e0e1f348163f
 
 const routeTest = async () => {
-  const fromTokenContractAddress = '0x2dff88a56767223a5529ea5960da7a3f5f766406'//'0xc2132d05d31c914a87c6611c10748aeb04b58e8f'; //'0xEf0e839Cf88E47be676E72D5a9cB6CED99FaD1CF';
+  const fromTokenContractAddress = '0xEA32A96608495e54156Ae48931A7c20f0dcc1a21'//0xc2132d05d31c914a87c6611c10748aeb04b58e8f'; //'0xEf0e839Cf88E47be676E72D5a9cB6CED99FaD1CF';
   console.log(fromTokenContractAddress)
-  const toTokenContractAddress = '0x0d8ce2a99bb6e3b7db580ed848240e4a0f9ae153'; // 0x1985365e9f78359a9B6AD760e32412f4a445E862
-  const ethereumAddress = '0x89be2512aba6b6542aac5f5e5101348cf98c68a9';
+  const toTokenContractAddress = '0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC'; // 0x1985365e9f78359a9B6AD760e32412f4a445E862
+  const ethereumAddress = '0xd5c1b0b852754ccdc613e9f1aed933e500353fe2';
 
   const uniswapPair = new UniswapPair({
     fromTokenContractAddress,
     toTokenContractAddress,
     ethereumAddress,
-    
-    chainId: ChainId.BSC,
-    providerUrl:"https://bsc-dataseed1.binance.org",
+    chainId: ChainId.METIS,
+    providerUrl:"https://andromeda.metis.io/?owner=1088",
     settings: new UniswapPairSettings({
       // if not supplied it use `0.005` which iss 0.5%;
       // all figures
@@ -35,41 +33,51 @@ const routeTest = async () => {
       disableMultihops: false,
       disableObserver: true,
       uniswapVersions: [UniswapVersion.v2, UniswapVersion.v3],
-      
       customNetwork:{
-        nameNetwork: 'BSC',
+        nameNetwork: 'Metis Andromeda',
         multicallContractAddress: "0xcA11bde05977b3631167028862bE2a173976CA11",
         nativeCurrency: {
-          name: 'BSC',
-          symbol: 'BNB'
+          name: 'Metis Andromeda',
+          symbol: 'METIS'
         },
-        nativeWrappedTokenInfo: {
-          chainId: 56,
-          contractAddress: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-          decimals: 18,
-          symbol: 'WBNB',
-          name: 'Wrapped BNB'
-        },
-        baseTokens:{
-            usdc: USDC.BSC(),
-            usdt: USDT.BSC(),
-            dai:DAI.BSC(),
-            comp: COMP.BSC(),
-            wbtc: WBTC.BSC()
-        }
+        // nativeWrappedTokenInfo: {
+        //   chainId: ChainId.METIS,
+        //   contractAddress: '0x75cb093E4D61d2A2e65D8e0BBb01DE8d89b53481',
+        //   decimals: 18,
+        //   symbol: 'WMETIS',
+        //   name: 'Wrapped METIS'
+        // }
       },
-      
       cloneUniswapContractDetails: [
         {
           v2Override:
             {
-              description: 'PancakeSwap',
-              routerAddress: '0x10ED43C718714eb63d5aA57B78B54704E256024E',//'0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45',
-              factoryAddress: '0xca143ce32fe78f1f7019d7d551a6402fc5350c73',
-              pairAddress: '0xca143ce32fe78f1f7019d7d551a6402fc5350c73',
+              description: 'Tethys Finance',
+              routerAddress: '0x81b9FA50D5f5155Ee17817C21702C3AE4780AD09',
+              factoryAddress: '0x2CdFB20205701FF01689461610C9F321D1d00F80',
+              pairAddress: '0x2CdFB20205701FF01689461610C9F321D1d00F80',
               
             },
-            
+        },
+        {
+          v2Override:
+            {
+              description: 'NettSwap',
+              routerAddress: '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56',
+              factoryAddress: '0x70f51d68D16e8f9e418441280342BD43AC9Dff9f',
+              pairAddress: '0x70f51d68D16e8f9e418441280342BD43AC9Dff9f',
+              
+            },
+        },
+        {
+          v2Override:
+            {
+              description: 'Hermes Protocol',
+              routerAddress: '0x50F0771194A531aaA0EFc1334bE7597A087BEB4B',
+              factoryAddress: '0x2CdFB20205701FF01689461610C9F321D1d00F80',
+              pairAddress: '0x2CdFB20205701FF01689461610C9F321D1d00F80',
+              
+            },
         }
       ],
       
@@ -79,11 +87,6 @@ const routeTest = async () => {
   const startTime = new Date().getTime();
 
   const uniswapPairFactory = await uniswapPair.createFactory();
-  // const y = await uniswapPairFactory.findAllPossibleRoutesWithQuote('1', TradeDirection.input)
-  // const z = await uniswapPairFactory.findBestRoute('1', TradeDirection.input)
-  // csl('x: ', x)
-  // csl( 'y', y)
-  // csl( 'z', z)
   const trade = await uniswapPairFactory.trade('1', TradeDirection.input);
 
   console.log(new Date().getTime() - startTime);

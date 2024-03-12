@@ -35,7 +35,7 @@ import { parseEther } from '../../common/utils/parse-ether';
 import { toEthersBigNumber } from '../../common/utils/to-ethers-big-number';
 import { getTradePath } from '../../common/utils/trade-path';
 import { CustomMulticall } from '../../custom-multicall';
-import { ChainId } from '../../enums/chain-id';
+//import { ChainId } from '../../enums/chain-id';
 import { TradePath } from '../../enums/trade-path';
 import { UniswapVersion } from '../../enums/uniswap-version';
 import { EthersProvider } from '../../ethers-provider';
@@ -624,7 +624,7 @@ export class UniswapRouterFactory {
     );
 
     if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET &&
+      //this._ethersProvider.provider.network.chainId === ChainId.MAINNET &&
       this._settings.gasSettings &&
       allowanceAndBalances.enoughBalance
     ) {
@@ -2519,10 +2519,10 @@ export class UniswapRouterFactory {
   }
 
   private get allMainTokens(): Token[] {
-    if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
-      this._settings.customNetwork
-    ) {
+    // if (
+    //   this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
+    //   this._settings.customNetwork
+    // ) {
       const tokens: (Token | undefined)[] = [
         this.USDTTokenForConnectedNetwork,
         this.COMPTokenForConnectedNetwork,
@@ -2534,16 +2534,16 @@ export class UniswapRouterFactory {
       ];
 
       return tokens.filter((t) => t !== undefined) as Token[];
-    }
+    // }
 
-    return [this.WETHTokenForConnectedNetwork];
+    // return [this.WETHTokenForConnectedNetwork];
   }
 
   private get mainCurrenciesPairsForFromToken(): Token[][] {
-    if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
-      this._settings.customNetwork
-    ) {
+    // if (
+    //   this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
+    //   this._settings.customNetwork
+    // ) {
       const pairs = [
         [this._fromToken, this.USDTTokenForConnectedNetwork],
         [this._fromToken, this.COMPTokenForConnectedNetwork],
@@ -2563,17 +2563,17 @@ export class UniswapRouterFactory {
       return this.filterUndefinedTokens(pairs).filter(
         (t) => t[0].contractAddress !== t[1].contractAddress
       );
-    }
+    // }
 
-    const pairs = [[this._fromToken, this.WETHTokenForConnectedNetwork]];
-    return pairs.filter((t) => t[0].contractAddress !== t[1].contractAddress);
+    // const pairs = [[this._fromToken, this.WETHTokenForConnectedNetwork]];
+    // return pairs.filter((t) => t[0].contractAddress !== t[1].contractAddress);
   }
 
   private get mainCurrenciesPairsForToToken(): Token[][] {
-    if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
-      this._settings.customNetwork
-    ) {
+    // if (
+    //   this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
+    //   this._settings.customNetwork
+    // ) {
       const pairs: (Token | undefined)[][] = [
         [this.USDTTokenForConnectedNetwork, this._toToken],
         [this.COMPTokenForConnectedNetwork, this._toToken],
@@ -2593,20 +2593,20 @@ export class UniswapRouterFactory {
       return this.filterUndefinedTokens(pairs).filter(
         (t) => t[0].contractAddress !== t[1].contractAddress
       );
-    }
+    // }
 
-    const pairs: Token[][] = [
-      [this.WETHTokenForConnectedNetwork, this._toToken],
-    ];
+    // const pairs: Token[][] = [
+    //   [this.WETHTokenForConnectedNetwork, this._toToken],
+    // ];
 
-    return pairs.filter((t) => t[0].contractAddress !== t[1].contractAddress);
+    // return pairs.filter((t) => t[0].contractAddress !== t[1].contractAddress);
   }
 
   private get mainCurrenciesPairsForUSDT(): Token[][] {
-    if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
-      this._settings.customNetwork
-    ) {
+    // if (
+    //   this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
+    //   this._settings.customNetwork
+    // ) {
       const pairs: (Token | undefined)[][] = [
         [this.USDTTokenForConnectedNetwork, this.COMPTokenForConnectedNetwork],
         [this.USDTTokenForConnectedNetwork, this.DAITokenForConnectedNetwork],
@@ -2626,16 +2626,16 @@ export class UniswapRouterFactory {
       }
 
       return this.filterUndefinedTokens(pairs);
-    }
+    // }
 
-    return [];
+    // return [];
   }
 
   private get mainCurrenciesPairsForCOMP(): Token[][] {
-    if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
-      this._settings.customNetwork
-    ) {
+    // if (
+    //   this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
+    //   this._settings.customNetwork
+    // ) {
       const pairs: (Token | undefined)[][] = [
         [this.COMPTokenForConnectedNetwork, this.USDTTokenForConnectedNetwork],
         [this.COMPTokenForConnectedNetwork, this.DAITokenForConnectedNetwork],
@@ -2655,16 +2655,16 @@ export class UniswapRouterFactory {
       }
 
       return this.filterUndefinedTokens(pairs);
-    }
+    // }
 
-    return [];
+    // return [];
   }
 
   private get mainCurrenciesPairsForDAI(): Token[][] {
-    if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
-      this._settings.customNetwork
-    ) {
+    // if (
+    //   this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
+    //   this._settings.customNetwork
+    // ) {
       const pairs: (Token | undefined)[][] = [
         [this.DAITokenForConnectedNetwork, this.COMPTokenForConnectedNetwork],
         [this.DAITokenForConnectedNetwork, this.WBTCTokenForConnectedNetwork],
@@ -2684,16 +2684,16 @@ export class UniswapRouterFactory {
       }
 
       return this.filterUndefinedTokens(pairs);
-    }
+    // }
 
-    return [];
+    // return [];
   }
 
   private get mainCurrenciesPairsForUSDC(): Token[][] {
-    if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
-      this._settings.customNetwork
-    ) {
+    // if (
+    //   this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
+    //   this._settings.customNetwork
+    // ) {
       const pairs: (Token | undefined)[][] = [
         [this.USDCTokenForConnectedNetwork, this.USDTTokenForConnectedNetwork],
         [this.USDCTokenForConnectedNetwork, this.COMPTokenForConnectedNetwork],
@@ -2713,16 +2713,16 @@ export class UniswapRouterFactory {
       }
 
       return this.filterUndefinedTokens(pairs);
-    }
+    // }
 
-    return [];
+    // return [];
   }
 
   private get mainCurrenciesPairsForWBTC(): Token[][] {
-    if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
-      this._settings.customNetwork
-    ) {
+    // if (
+    //   this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
+    //   this._settings.customNetwork
+    // ) {
       const tokens: (Token | undefined)[][] = [
         [this.WBTCTokenForConnectedNetwork, this.USDTTokenForConnectedNetwork],
         [this.WBTCTokenForConnectedNetwork, this.DAITokenForConnectedNetwork],
@@ -2733,9 +2733,9 @@ export class UniswapRouterFactory {
       ];
 
       return this.filterUndefinedTokens(tokens);
-    }
+    // }
 
-    return [];
+    // return [];
   }
   // private get mainCurrenciesPairsForWMATIC(): Token[][] {
   //   if (
@@ -2757,10 +2757,10 @@ export class UniswapRouterFactory {
   //   return [];
   // }
   private get mainCurrenciesPairsForWETH(): Token[][] {
-    if (
-      this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
-      this._settings.customNetwork
-    ) {
+    // if (
+    //   this._ethersProvider.provider.network.chainId === ChainId.MAINNET ||
+    //   this._settings.customNetwork
+    // ) {
       const tokens: (Token | undefined)[][] = [
         [this.WETHTokenForConnectedNetwork, this.USDTTokenForConnectedNetwork],
         [this.WETHTokenForConnectedNetwork, this.COMPTokenForConnectedNetwork],
@@ -2771,9 +2771,9 @@ export class UniswapRouterFactory {
       ];
 
       return this.filterUndefinedTokens(tokens);
-    }
+    // }
 
-    return [];
+    // return [];
   }
 
   private filterUndefinedTokens(tokens: (Token | undefined)[][]): Token[][] {
@@ -2783,7 +2783,7 @@ export class UniswapRouterFactory {
   }
 
   private get USDTTokenForConnectedNetwork() {
-    if (this._settings.customNetwork) {
+    if (this._settings.customNetwork?.baseTokens) {
       return this._settings.customNetwork.baseTokens?.usdt;
     }
 
@@ -2791,7 +2791,7 @@ export class UniswapRouterFactory {
   }
 
   private get COMPTokenForConnectedNetwork() {
-    if (this._settings.customNetwork) {
+    if (this._settings.customNetwork?.baseTokens) {
       return this._settings.customNetwork.baseTokens?.comp;
     }
 
@@ -2799,7 +2799,7 @@ export class UniswapRouterFactory {
   }
 
   private get DAITokenForConnectedNetwork() {
-    if (this._settings.customNetwork) {
+    if (this._settings.customNetwork?.baseTokens) {
       return this._settings.customNetwork.baseTokens?.dai;
     }
 
@@ -2807,7 +2807,7 @@ export class UniswapRouterFactory {
   }
 
   private get USDCTokenForConnectedNetwork() {
-    if (this._settings.customNetwork) {
+    if (this._settings.customNetwork?.baseTokens) {
       return this._settings.customNetwork.baseTokens?.usdc;
     }
 
@@ -2815,7 +2815,7 @@ export class UniswapRouterFactory {
   }
 
   private get WETHTokenForConnectedNetwork() {
-    if (this._settings.customNetwork) {
+    if (this._settings.customNetwork?.nativeWrappedTokenInfo) {
       return this._settings.customNetwork.nativeWrappedTokenInfo??WETHContract.token(this._ethersProvider.provider.network.chainId);
     }
 
@@ -2823,7 +2823,7 @@ export class UniswapRouterFactory {
   }
 
   private get WBTCTokenForConnectedNetwork() {
-    if (this._settings.customNetwork) {
+    if (this._settings.customNetwork?.baseTokens) {
       return this._settings.customNetwork.baseTokens?.wbtc;
     }
 
@@ -2837,7 +2837,7 @@ export class UniswapRouterFactory {
   //   return WMATICContract.token(this._ethersProvider.provider.network.chainId);
   // }
   private getNativeTokenSymbol(): string {
-    if (this._settings.customNetwork) {
+    if (this._settings.customNetwork?.nativeCurrency) {
       return this._settings.customNetwork.nativeCurrency.symbol;
     }
 

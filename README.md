@@ -4348,3 +4348,15 @@ TraderJoe ABI: https://snowtrace.io/address/0x60aE616a2155Ee3d9A68541Ba454486231
 | Chain             | Router                                      | Factory / Pair
 | -                 | -                                           | -
 | Pulse             | 0xb4A7633D8932de086c9264D5eb39a8399d7C0E3A  | 0xb242aA8A863CfcE9fcBa2b9a6B00b4cd62343f27
+
+Uniswap v2 Contract Deployments
+Contract addresses for the Uniswap V2 Factory
+
+Network	Contract Address
+Mainnet, Ropsten, Rinkeby, Goerli, Kovan	0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f
+Arbitrum	0xf1D7CC64Fb4452F05c498126312eBE29f30Fbcf9
+Avalanche	0x9e5A52f57b3038F1B8EeE45F28b3C1967e22799C
+BNB Chain	0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6
+Base	0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6
+Optimism	0x0c3c1c532F1e39EdF36BE9Fe0bE1410313E074Bf
+Polygon	0x9e5A52f57b3038F1B8EeE45F28b3C1967e22799C

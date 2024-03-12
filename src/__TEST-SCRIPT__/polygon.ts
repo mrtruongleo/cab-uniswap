@@ -1,8 +1,9 @@
+import { WBTC } from '../common/tokens/wbtc';
 import { csl } from '../common/utils/csl';
 import { ChainId } from '../enums/chain-id';
 import { UniswapPairSettings } from '../factories/pair/models/uniswap-pair-settings';
 import { UniswapPair } from '../factories/pair/uniswap-pair';
-import { TradeDirection, UniswapVersion } from '../index';
+import { COMP, DAI, TradeDirection, USDC, USDT, UniswapVersion } from '../index';
 
 // WBTC - 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599
 // FUN - 0x419D0d8BdD9aF5e606Ae2232ed285Aff190E711b
@@ -15,7 +16,7 @@ import { TradeDirection, UniswapVersion } from '../index';
 const routeTest = async () => {
   const fromTokenContractAddress = '0xa1c57f48f0deb89f569dfbe6e2b7f46d33606fd4'//'0xc2132d05d31c914a87c6611c10748aeb04b58e8f'; //'0xEf0e839Cf88E47be676E72D5a9cB6CED99FaD1CF';
   console.log(fromTokenContractAddress)
-  const toTokenContractAddress = '0x61299774020da444af134c82fa83e3810b309991'; // 0x1985365e9f78359a9B6AD760e32412f4a445E862
+  const toTokenContractAddress = '0xbbba073c31bf03b8acf7c28ef0738decf3695683'; // 0x1985365e9f78359a9B6AD760e32412f4a445E862
   const ethereumAddress = '0xd5c1b0b852754ccdc613e9f1aed933e500353fe2';
 
   const uniswapPair = new UniswapPair({
@@ -40,13 +41,14 @@ const routeTest = async () => {
           name: 'Matic network',
           symbol: 'MATIC'
         },
-        // nativeWrappedTokenInfo: {
-        //   chainId: 137,
-        //   contractAddress: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
-        //   decimals: 18,
-        //   symbol: 'WMATIC',
-        //   name: 'Wrapped Matic'
-        // }
+        baseTokens:{
+            usdc: USDC.POLYGON(),
+            usdt: USDT.POLYGON(),
+            dai:DAI.POLYGON(),
+            comp: COMP.POLYGON(),
+            wbtc: WBTC.POLYGON()
+        }
+        
       },
       cloneUniswapContractDetails: [
         {
@@ -55,20 +57,39 @@ const routeTest = async () => {
               description: 'Quick Swap',
               routerAddress: '0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff',//'0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45',
               factoryAddress: '0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32',
-              pairAddress: '0x61fFE014bA17989E743c5F6cB21bF9697530B21e',
+              pairAddress: '0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32',
             },
         },
+        
         {
-          v3Override:
+          v2Override:
             {
-              description: 'UniSwap',
-              routerAddress: '0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E',//'0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45',
-              factoryAddress: '0x0227628f3F023bb0B980b67D528571c95c6DaC1c',
-              quoterAddress: '0xEd1f6473345F45b75F8179591dd5bA1888cf2FB3',
+              description: 'SushiSwap',
+              routerAddress: '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
+              factoryAddress: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4',
+              pairAddress: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4',
               
-              //routerAbi: polygonAbi
             },
-        }
+        },
+        // {
+        //   v3Override:
+        //     {
+        //       description: 'UniSwapV3',
+        //       routerAddress: '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45',//'0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45',
+        //       factoryAddress: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
+        //       quoterAddress: '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6',              
+        //     },
+        // },
+        // {
+        //   v2Override:
+        //     {
+        //       description: 'UniSwapV2',
+        //       routerAddress: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',//'0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45',
+        //       factoryAddress: '0x9e5A52f57b3038F1B8EeE45F28b3C1967e22799C',
+        //       pairAddress: '0x9e5A52f57b3038F1B8EeE45F28b3C1967e22799C',
+              
+        //     },
+        // },
       ],
       
     }),
@@ -81,7 +102,13 @@ const routeTest = async () => {
   const trade = await uniswapPairFactory.trade('1', TradeDirection.input);
 
   console.log(new Date().getTime() - startTime);
-  csl(trade);
+  const allTriedRoutes = trade.allTriedRoutesQuotes.map((r)=>({
+    text: r.routeText,
+    expectedAmount: r.expectedConvertQuote,
+    dex: r.description
+  }))
+  csl(allTriedRoutes);
+  csl('Best routes: ', allTriedRoutes[0])
 
   // console.log(JSON.stringify(trade, null, 4));
   // console.log(trade);

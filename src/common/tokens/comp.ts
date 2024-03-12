@@ -2,6 +2,7 @@ import { ChainId } from '../../enums/chain-id';
 import { Token } from '../../factories/token/models/token';
 import { ErrorCodes } from '../errors/error-codes';
 import { UniswapError } from '../errors/uniswap-error';
+import { WETHContract } from './weth';
 
 /**
  * COMP token context CHANGE CONTRACT ADDRESS INFO ETC
@@ -34,6 +35,17 @@ export class COMP {
       name: "Compound",
     };
   }
+
+  public static ARBITRUM() {
+    return {
+      chainId: ChainId.ARBITRUM,
+      contractAddress: "0x354A6dA3fcde098F8389cad84b0182725c6C91dE",
+      decimals: 18,
+      symbol: "COMP",
+      name: "Compound",
+    };
+  }
+
   /**0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c
    * Get COMP token info by chain id
    * @param chainId The chain id
@@ -46,6 +58,11 @@ export class COMP {
         return this.POLYGON();
       case ChainId.BSC:
         return this.BSC();
+      case ChainId.ARBITRUM:
+        return this.ARBITRUM()
+      case ChainId.AVALANCHE:
+      case ChainId.METIS:
+        return WETHContract.token(chainId)
       default:
         throw new UniswapError(
           `${chainId} is not allowed`,

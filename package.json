@@ -1,6 +1,6 @@
 {
   "name": "@mrtruongleo/cab-uniswap",
-  "version": "3.7.3",
+  "version": "3.7.5",
   "description": "Simple easy to understand SDK for uniswap which looks over best v2 and v3 to find you the best swap quote",
   "main": "dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -14,6 +14,7 @@
     "polygon": "node ./dist/cjs/__TEST-SCRIPT__/polygon.js",
     "bsc": "node ./dist/cjs/__TEST-SCRIPT__/bsc.js",
     "arbitrum": "node ./dist/cjs/__TEST-SCRIPT__/arbitrum.js",
+    "metis": "node ./dist/cjs/__TEST-SCRIPT__/metis.js",
     "watch": "tsc --module commonjs --outDir dist/cjs --watch",
     "test": "jest",
     "gen-erc20-abi": "abi-types-generator ./src/ABI/erc-20-abi.json --output=./src/ABI/types --name=erc20-contract --provider=ethers_v5",

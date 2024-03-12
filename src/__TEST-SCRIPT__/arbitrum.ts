@@ -15,7 +15,7 @@ import {TradeDirection, UniswapVersion } from '../index';
 const routeTest = async () => {
   const fromTokenContractAddress = '0x3082cc23568ea640225c2467653db90e9250aaa0'//'0xc2132d05d31c914a87c6611c10748aeb04b58e8f'; //'0xEf0e839Cf88E47be676E72D5a9cB6CED99FaD1CF';
   console.log(fromTokenContractAddress)
-  const toTokenContractAddress = '0x6740acb82ac5c63a7ad2397ee1faed7c788f5f8c'; // 0x1985365e9f78359a9B6AD760e32412f4a445E862
+  const toTokenContractAddress = '0x4cb9a7ae498cedcbb5eae9f25736ae7d428c9d66'; // 0x1985365e9f78359a9B6AD760e32412f4a445E862
   const ethereumAddress = '0xd5c1b0b852754ccdc613e9f1aed933e500353fe2';
 
   const uniswapPair = new UniswapPair({

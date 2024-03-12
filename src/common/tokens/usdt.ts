@@ -34,6 +34,33 @@ export class USDT {
       name: "Tether USD",
     };
   }
+  public static AVALANCHE() {
+    return {
+      chainId: ChainId.AVALANCHE,
+      contractAddress: "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
+      decimals: 6,
+      symbol: "USDT",
+      name: "Tether USD",
+    };
+  }
+  public static ARBITRUM() {
+    return {
+      chainId: ChainId.ARBITRUM,
+      contractAddress: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+      decimals: 6,
+      symbol: "USDT",
+      name: "Tether USD",
+    };
+  }
+  public static METIS() {
+    return {
+      chainId: ChainId.METIS,
+      contractAddress: "0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC",
+      decimals: 6,
+      symbol: "mUSDT",
+      name: "Tether USD",
+    };
+  }
   /**0xc2132d05d31c914a87c6611c10748aeb04b58e8f
    * Get USDT token info by chain id
    * @param chainId The chain id
@@ -46,6 +73,12 @@ export class USDT {
         return this.POLYGON();
       case ChainId.BSC:
         return this.BSC();
+      case ChainId.ARBITRUM:
+        return this.ARBITRUM();
+      case ChainId.AVALANCHE:
+        return this.AVALANCHE();
+      case ChainId.METIS:
+        return this.METIS()
       default:
         throw new UniswapError(
           `${chainId} is not allowed`,

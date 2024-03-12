@@ -34,7 +34,34 @@ export class USDC {
       name: "USD Coin",
     };
   }
-  /**0x3c499c542cef5e3811e1192ce70d8cc03d5c3359
+  public static AVALANCHE() {
+    return {
+      chainId: ChainId.AVALANCHE,
+      contractAddress: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+      decimals: 6,
+      symbol: "USDC",
+      name: "USD Coin",
+    };
+  }
+  public static ARBITRUM() {
+    return {
+      chainId: ChainId.ARBITRUM,
+      contractAddress: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      decimals: 6,
+      symbol: "USDC",
+      name: "USD Coin",
+    };
+  }
+  public static METIS() {
+    return {
+      chainId: ChainId.METIS,
+      contractAddress: "0xEA32A96608495e54156Ae48931A7c20f0dcc1a21",
+      decimals: 6,
+      symbol: "mUSDC",
+      name: "USD Coin",
+    };
+  }
+  /**0xEA32A96608495e54156Ae48931A7c20f0dcc1a21
    * Get USDC token info by chain id
    * @param chainId The chain id
    */
@@ -46,6 +73,12 @@ export class USDC {
         return this.POLYGON();
       case ChainId.BSC:
         return this.BSC();
+      case ChainId.ARBITRUM:
+        return this.ARBITRUM();
+      case ChainId.AVALANCHE:
+        return this.AVALANCHE();
+      case ChainId.METIS:
+        return this.METIS()
       default:
         throw new UniswapError(
           `${chainId} is not allowed`,

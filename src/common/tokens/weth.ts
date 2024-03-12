@@ -65,8 +65,8 @@ export class WETHContract {
       chainId: ChainId.AVALANCHE,
       contractAddress: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
       decimals: 18,
-      symbol: WETH_SYMBOL,
-      name: WETH_NAME,
+      symbol: 'WAVAX',
+      name: 'Wrapped Avax',
     };
   }
   public static SEPOLIA(): Token {
@@ -105,6 +105,15 @@ export class WETHContract {
       name: WETH_NAME,
     };
   }
+  public static METIS(): Token {
+    return {
+      chainId: ChainId.METIS,
+      contractAddress: '0x75cb093E4D61d2A2e65D8e0BBb01DE8d89b53481',
+      decimals: 18,
+      symbol: 'WMETIS',
+      name: 'Wrapped Metis',
+    };
+  }
   /**
    * Get WETH token info by chain id
    * @param chainId The chain id
@@ -131,6 +140,8 @@ export class WETHContract {
         return this.BSC();
       case ChainId.ARBITRUM:
         return this.ARBITRUM();
+      case ChainId.METIS:
+        return this.METIS()
       default:
         throw new UniswapError(
           `${chainId} is not allowed`,

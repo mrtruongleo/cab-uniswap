@@ -114,8 +114,8 @@ export class ETH {
         '0xd00ae08403B9bbb9124bB305C09058E32C39A48c'
       ),
       decimals: 18,
-      symbol: ETH_SYMBOL,
-      name: ETH_NAME,
+      symbol: 'AVAX',
+      name: 'Avalanche coin',
     };
   }
 
@@ -126,8 +126,8 @@ export class ETH {
         '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7'
       ),
       decimals: 18,
-      symbol: ETH_SYMBOL,
-      name: ETH_NAME,
+      symbol: 'AVAX',
+      name: 'Avalanche coin',
     };
   }
   public static POLYGON(): Token {
@@ -148,8 +148,8 @@ export class ETH {
         '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
       ),
       decimals: 18,
-      symbol: 'WBNB',
-      name: 'Wrapped BNB',
+      symbol: 'BNB',
+      name: 'Binance coin',
     };
   }
    public static ARBITRUM(): Token {
@@ -161,6 +161,17 @@ export class ETH {
       decimals: 18,
       symbol: ETH_SYMBOL,
       name: ETH_NAME,
+    };
+  }
+  public static METIS(): Token {
+    return {
+      chainId: ChainId.METIS,
+      contractAddress: appendEthToContractAddress(
+        '0x75cb093E4D61d2A2e65D8e0BBb01DE8d89b53481'
+      ),
+      decimals: 18,
+      symbol: 'METIS',
+      name: 'Metis network',
     };
   }
   /**
@@ -196,6 +207,10 @@ export class ETH {
         return this.POLYGON();
       case ChainId.BSC:
         return this.BSC();
+      case ChainId.ARBITRUM:
+        return this.ARBITRUM();
+      case ChainId.METIS:
+        return this.METIS()
       default:
         throw new UniswapError(
           `${chainId} is not allowed`,
