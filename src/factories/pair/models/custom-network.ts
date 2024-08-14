@@ -17,6 +17,7 @@ export interface CustomNetwork {
     comp?: Token | undefined;
     usdc?: Token | undefined;
     wbtc?: Token | undefined;
-    //wmatic?: Token | undefined;
+    quick?: Token | undefined;
+    cake?: Token | undefined
   };
 }

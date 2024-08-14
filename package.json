@@ -1,6 +1,6 @@
 {
   "name": "@mrtruongleo/cab-uniswap",
-  "version": "3.7.5",
+  "version": "3.7.6",
   "description": "Simple easy to understand SDK for uniswap which looks over best v2 and v3 to find you the best swap quote",
   "main": "dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -13,6 +13,7 @@
     "avax": "node ./dist/cjs/__TEST-SCRIPT__/avax.js",
     "polygon": "node ./dist/cjs/__TEST-SCRIPT__/polygon.js",
     "bsc": "node ./dist/cjs/__TEST-SCRIPT__/bsc.js",
+    "ftm": "node ./dist/cjs/__TEST-SCRIPT__/ftm.js",
     "arbitrum": "node ./dist/cjs/__TEST-SCRIPT__/arbitrum.js",
     "metis": "node ./dist/cjs/__TEST-SCRIPT__/metis.js",
     "watch": "tsc --module commonjs --outDir dist/cjs --watch",
